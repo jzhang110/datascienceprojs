@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jimmy Zhang" />
+    <meta name="description" content="Describe your website">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico">
+    <title>Project 1: Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.70.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../blog/">BLOG</a></li>
+        
+        <li><a href="../projects/">PROJECTS</a></li>
+        
+        <li><a href="../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../project1/">Project 1: Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 1, 0001
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<div id="data-wrangling-and-data-exploration" class="section level2">
+<h2>Data Wrangling and Data Exploration</h2>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<p>A knitted R Markdown document (as a PDF) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 3/8/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document).</p>
+<p>The text of the document should provide a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be considered. Furthermore, all code contained in your final project document must work correctly (knit early, knit often)! Please do not include any extraneous code or code which produces error messages. (Code that produces warnings is acceptable, as long as you understand what the warnings mean!)</p>
+</div>
+<div id="find-data" class="section level3">
+<h3>Find data:</h3>
+<p>Find two (!) datasets with one variable in common (e.g., dates, times, states, counties, countries, sports players), both with at least 50 observations (i.e., rows) in each. Please think carefully it makes sense to combine your datasets! When combined, the resulting/final dataset must have <strong>at least 4 different variables (at least 3 numeric) in addition to the common variable</strong> (i.e., five variables total).</p>
+<p>You can have as many variables as you would like! If you found two datasets that you like but they don’t have enough variables, find a third dataset with the same common variable and join all three.</p>
+</div>
+<div id="guidelines" class="section level3">
+<h3>Guidelines</h3>
+<ol style="list-style-type: decimal">
+<li><p>If the datasets are not tidy, you will need to reshape them so that every observation has its own row and every variable its own column. If the datasets are both already tidy, you will make them untidy with <code>pivot_wider()/spread()</code> and then tidy them again with <code>pivot_longer/gather()</code> to demonstrate your use of the functions. It’s fine to wait until you have your descriptives to use these functions (e.g., you might want to pivot_wider() to rearrange the data to make your descriptive statistics easier to look at); it’s fine long as you use them at least once!</p>
+<ul>
+<li><p>Depending on your datasets, it might be a good idea to do this before joining. For example, if you have a dataset you like with multiple measurements per year, but you want to join by year, you could average over your numeric variables to get means/year, do counts for your categoricals to get a counts/year, etc.</p></li>
+<li><p>If your data sets are already tidy, demonstrate the use of <code>pivot_longer()/gather()</code> and <code>pivot_wider()/spread()</code> on all or part of your data at some point in this document (e.g., after you have generated summary statistics in part 3, make a table of them wide instead of long).</p></li>
+</ul></li>
+<li><p>Join your 2+ separate data sources into a single dataset</p>
+<ul>
+<li>You will document the type of join that you do (left/right/inner/full), including a discussion of how many cases in each dataset were dropped (if any) and why you chose this particular join</li>
+</ul></li>
+<li><p>Create summary statistics</p>
+<ul>
+<li><p>Use <em>all six</em> core <code>dplyr</code> functions (<code>filter, select, arrange, group_by, mutate, summarize</code>) to manipulate and explore your dataset. For mutate, create a new variable that is a function of at least one other variable, preferably using a dplyr vector function (see dplyr cheatsheet). It’s totally fine to use the <code>_if</code>, <code>_at</code>, <code>_all</code> versions of mutate/summarize instead (indeed, it is encouraged if you have lots of variables)</p></li>
+<li><p>Create summary statistics (<code>mean, sd, var, n, quantile, min, max, n_distinct, cor</code>, etc) for each of your numeric variables both overall and after grouping by one of your categorical variables (either together or one-at-a-time; if you have two categorical variables, try to include at least one statistic based on a grouping of two categorical variables simultaneously). If you do not have any categorical variables, create one using mutate (e.g., with <code>case_when</code> or <code>ifelse</code>) to satisfy the <code>group_by</code> requirements above. Ideally, you will find a way to show these summary statistics in an easy-to-read table (e.g., by reshaping). (You might explore the kable package for making pretty tables!) If you have lots of numeric variables, or your categorical variables have too many categories, just pick a few (either numeric variables or categories of a categorical variable) and summarize based on those. It would be a good idea to show a correlation matrix for your numeric variables!</p></li>
+</ul></li>
+<li><p>Make visualizations (three plots)</p>
+<ul>
+<li>Make a correlation heatmap of your numeric variables</li>
+<li>Create at least two additional plots of your choice with ggplot that highlight some of the more interesting findings that your descriptive statistics have turned up.</li>
+<li>Each plot (besides the heatmap) should have at least three variables mapped to separate aesthetics</li>
+<li>At least one plot should include <code>stat=&quot;summary&quot;</code></li>
+<li>Each plot should include a supporting paragraph describing the relationships that are being visualized and any trends that are apparent
+<ul>
+<li>It is fine to include more, but limit yourself to 4. Plots should avoid being redundant! Four bad plots will get a lower grade than two good plots, all else being equal.</li>
+</ul></li>
+<li>Make them pretty! Use correct labels, etc.</li>
+</ul></li>
+<li><p>Perform k-means/PAM clustering or PCA on (at least) your numeric variables.</p>
+<ul>
+<li><p>Include all steps as we discuss in class, including a visualization.</p></li>
+<li><p>If you don’t have at least 3 numeric variables, or you want to cluster based on categorical variables too, convert them to factors in R, generate Gower’s dissimilarity matrix on the data, and do PAM clustering on the dissimilarities.</p></li>
+<li><p>Show how you chose the final number of clusters/principal components</p></li>
+<li><p>Interpret the final clusters/principal components</p></li>
+<li><p>For every step, document what your code does (in words) and what you see in the data!</p></li>
+</ul></li>
+</ol>
+<P style="page-break-before: always">
+
+</div>
+<div id="rubric" class="section level3">
+<h3>Rubric</h3>
+<p>Prerequisite: Finding appropriate data from at least two sources per the instructions above: Failure to do this will result in a 0! You will submit a .Rmd file and a knitted document (pdf).</p>
+<div id="introduction-4-pts" class="section level4">
+<h4>0. Introduction (4 pts)</h4>
+<ul>
+<li>Write a narrative introductory paragraph or two describing the datasets you have chosen, the variables they contain, how they were acquired, and why they are interesting to you. Expand on potential associations you may expect, if any.</li>
+</ul>
+<p>For the exploratory analysis project, I chose to combine two datasets by the country variable. The first dataset I chose was about average plastic waste per country that was measured in kg/person/day. The first dataset was obtained from GitHub’s tidytuesday project. In addition to containing average plastic waste, the first dataset also included the country’s three letter code, the GDP per capital of each country in the data set, year, and total population of the country. I chose this dataset because I was very interested on the trend in plastic waste in countries around the world. I was hoping to compare the different countries to see how plastic waste relates to other aspects of a country such as GDP and population. The second dataset I chose was a dataset about the average life expectancy (in years) in various countries. The second dataset was also obtained from GitHub’s tidetuesday project. In addition to containing life expectancy for all of the countries in the dataset, the dataset also included the various countries’ three letter codes along with the year that the life expectancy data was measured. I chose the second dataset because I wanted to compare the different countries to see if GDP per capita and population have any correlation with life expectancy. I expected that there was an association between GDP and life expectancy along with GDP and plastic waste.</p>
+</div>
+<div id="tidying-rearranging-widelong-8-pts" class="section level4">
+<h4>1. Tidying: Rearranging Wide/Long (8 pts)</h4>
+<pre class="r"><code>plastic &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-05-21/per-capita-plastic-waste-vs-gdp-per-capita.csv&quot;)
+lifeexpraw &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-07-03/week14_global_life_expectancy.csv&quot;)
+library(tidyverse)
+plasticwasteraw &lt;- plastic %&gt;% na.omit()
+plasticwaste &lt;- plasticwasteraw[-c(3)]
+lifeexp &lt;- lifeexpraw %&gt;% na.omit()
+names(plasticwaste)[1] &lt;- &quot;country&quot;
+names(plasticwaste)[3] &lt;- &quot;PlasticWaste(kg/person/day)&quot;
+names(plasticwaste)[4] &lt;- &quot;GDP(per capita)&quot;
+names(plasticwaste)[5] &lt;- &quot;Population&quot;
+names(lifeexp)[4] &lt;- &quot;life&quot;
+head(plasticwaste)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   country           Code  `PlasticWaste(kg/person/d… `GDP(per capita… Population
+##   &lt;chr&gt;             &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Albania           ALB                        0.069            9927.    3204284
+## 2 Algeria           DZA                        0.144           12871.   35468208
+## 3 Angola            AGO                        0.062            5898.   19081912
+## 4 Antigua and Barb… ATG                        0.66            19213.      88710
+## 5 Argentina         ARG                        0.183           18712.   40412376
+## 6 Australia         AUS                        0.112           41464.   22268384</code></pre>
+<pre class="r"><code>head(lifeexp)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   country     code   year  life
+##   &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Afghanistan AFG    1950  27.5
+## 2 Afghanistan AFG    1951  27.8
+## 3 Afghanistan AFG    1952  28.4
+## 4 Afghanistan AFG    1953  28.9
+## 5 Afghanistan AFG    1954  29.4
+## 6 Afghanistan AFG    1955  29.9</code></pre>
+<pre class="r"><code>untidyplasticwaste &lt;- plasticwaste %&gt;% pivot_wider(names_from = Code, 
+    values_from = &quot;PlasticWaste(kg/person/day)&quot;)
+tidyplasticwaste &lt;- untidyplasticwaste %&gt;% pivot_longer(2:148, 
+    names_to = &quot;Code&quot;, values_to = &quot;waste&quot;, values_drop_na = T)
+head(untidyplasticwaste)</code></pre>
+<pre><code>## # A tibble: 6 x 148
+##   country `GDP(per capita… Population    ALB    DZA    AGO   ATG    ARG    AUS
+##   &lt;chr&gt;              &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Albania            9927.    3204284  0.069 NA     NA     NA    NA     NA    
+## 2 Algeria           12871.   35468208 NA      0.144 NA     NA    NA     NA    
+## 3 Angola             5898.   19081912 NA     NA      0.062 NA    NA     NA    
+## 4 Antigu…           19213.      88710 NA     NA     NA      0.66 NA     NA    
+## 5 Argent…           18712.   40412376 NA     NA     NA     NA     0.183 NA    
+## 6 Austra…           41464.   22268384 NA     NA     NA     NA    NA      0.112
+## # … with 139 more variables: BHS &lt;dbl&gt;, BHR &lt;dbl&gt;, BGD &lt;dbl&gt;, BRB &lt;dbl&gt;,
+## #   BEL &lt;dbl&gt;, BLZ &lt;dbl&gt;, BEN &lt;dbl&gt;, BMU &lt;dbl&gt;, BIH &lt;dbl&gt;, BRA &lt;dbl&gt;,
+## #   BRN &lt;dbl&gt;, BGR &lt;dbl&gt;, KHM &lt;dbl&gt;, CMR &lt;dbl&gt;, CAN &lt;dbl&gt;, CPV &lt;dbl&gt;,
+## #   CHL &lt;dbl&gt;, CHN &lt;dbl&gt;, COL &lt;dbl&gt;, COM &lt;dbl&gt;, COG &lt;dbl&gt;, CRI &lt;dbl&gt;,
+## #   CIV &lt;dbl&gt;, HRV &lt;dbl&gt;, CYP &lt;dbl&gt;, COD &lt;dbl&gt;, DNK &lt;dbl&gt;, DMA &lt;dbl&gt;,
+## #   DOM &lt;dbl&gt;, ECU &lt;dbl&gt;, EGY &lt;dbl&gt;, SLV &lt;dbl&gt;, GNQ &lt;dbl&gt;, ERI &lt;dbl&gt;,
+## #   EST &lt;dbl&gt;, FJI &lt;dbl&gt;, FIN &lt;dbl&gt;, FRA &lt;dbl&gt;, GAB &lt;dbl&gt;, GMB &lt;dbl&gt;,
+## #   GEO &lt;dbl&gt;, DEU &lt;dbl&gt;, GHA &lt;dbl&gt;, GRC &lt;dbl&gt;, GRD &lt;dbl&gt;, GTM &lt;dbl&gt;,
+## #   GIN &lt;dbl&gt;, GNB &lt;dbl&gt;, GUY &lt;dbl&gt;, HTI &lt;dbl&gt;, HND &lt;dbl&gt;, HKG &lt;dbl&gt;,
+## #   ISL &lt;dbl&gt;, IND &lt;dbl&gt;, IDN &lt;dbl&gt;, IRN &lt;dbl&gt;, IRQ &lt;dbl&gt;, IRL &lt;dbl&gt;,
+## #   ISR &lt;dbl&gt;, ITA &lt;dbl&gt;, JAM &lt;dbl&gt;, JPN &lt;dbl&gt;, JOR &lt;dbl&gt;, KEN &lt;dbl&gt;,
+## #   KIR &lt;dbl&gt;, KWT &lt;dbl&gt;, LVA &lt;dbl&gt;, LBN &lt;dbl&gt;, LBR &lt;dbl&gt;, LBY &lt;dbl&gt;,
+## #   LTU &lt;dbl&gt;, MAC &lt;dbl&gt;, MDG &lt;dbl&gt;, MYS &lt;dbl&gt;, MDV &lt;dbl&gt;, MLT &lt;dbl&gt;,
+## #   MHL &lt;dbl&gt;, MRT &lt;dbl&gt;, MUS &lt;dbl&gt;, MEX &lt;dbl&gt;, MNE &lt;dbl&gt;, MAR &lt;dbl&gt;,
+## #   MOZ &lt;dbl&gt;, MMR &lt;dbl&gt;, NAM &lt;dbl&gt;, NRU &lt;dbl&gt;, NLD &lt;dbl&gt;, NZL &lt;dbl&gt;,
+## #   NIC &lt;dbl&gt;, NGA &lt;dbl&gt;, NOR &lt;dbl&gt;, OMN &lt;dbl&gt;, PAK &lt;dbl&gt;, PLW &lt;dbl&gt;,
+## #   PAN &lt;dbl&gt;, PNG &lt;dbl&gt;, PER &lt;dbl&gt;, PHL &lt;dbl&gt;, POL &lt;dbl&gt;, PRT &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>head(tidyplasticwaste)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   country Code                   waste
+##   &lt;chr&gt;   &lt;chr&gt;                  &lt;dbl&gt;
+## 1 Albania GDP(per capita)     9927.   
+## 2 Albania Population       3204284    
+## 3 Albania ALB                    0.069
+## 4 Algeria GDP(per capita)    12871.   
+## 5 Algeria Population      35468208    
+## 6 Algeria DZA                    0.144</code></pre>
+<ul>
+<li>Tidy the datasets (using the <code>tidyr</code> functions <code>pivot_longer</code>/<code>gather</code> and/or <code>pivot_wider</code>/<code>spread</code>)</li>
+<li>If you data sets are already tidy, be sure to use those functions somewhere else in your project</li>
+<li>Document the process (describe in words what was done per the instructions)</li>
+</ul>
+<p>Each of my datasets were already tidy to begin with other than needing to delete extraneous columns and omitting NAs. I demonstrated my tidying skills by first using pivot wider on the plastic dataset to reshape the dataset from long to wide. The process was done by first taking out a few columns and then using pivot_wider with names_from = Code and values_from = ‘PlasticWaste(kg/person/day)’ in order to make an extra-long dataset (a lot of columns). The extra long dataset was then named to be untidyplasticwaste. Next, pivot_longer was used to tidy the dataset into tidyplasticwaste.</p>
+</div>
+<div id="joiningmerging-8-pts" class="section level4">
+<h4>2. Joining/Merging (8 pts)</h4>
+<pre class="r"><code>lifeandwaste &lt;- lifeexp %&gt;% inner_join(plasticwaste, by = &quot;country&quot;)
+lifeandwaste &lt;- lifeandwaste[-c(5)]
+head(lifeandwaste)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+##   country code   year  life `PlasticWaste(kg/person… `GDP(per capita… Population
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;                    &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Albania ALB    1950  54.2                    0.069            9927.    3204284
+## 2 Albania ALB    1951  54.4                    0.069            9927.    3204284
+## 3 Albania ALB    1952  54.9                    0.069            9927.    3204284
+## 4 Albania ALB    1953  55.5                    0.069            9927.    3204284
+## 5 Albania ALB    1954  56.2                    0.069            9927.    3204284
+## 6 Albania ALB    1955  57.0                    0.069            9927.    3204284</code></pre>
+<ul>
+<li>Join your datasets into one using a <code>dplyr</code> join function</li>
+<li>If you have multiple observations on the joining variable in either dataset, fix this by collapsing via summarize</li>
+<li>Discuss the process in words, including why you chose the join you did</li>
+<li>Discuss which cases were dropped, if any, and potential problems with this</li>
+</ul>
+<p>I chose inner join to join my two datasets because I wanted to focus on primarily the countries that are involved in both of the datasets so I can get all the data that was available about a specific country from both datasets. The Column “Code” was deleted form the joined dataset as the data was inner joined by “country” and it left the joined dataset with two columns for the three letter codes that were in both of the original datasets. The joined dataset did not contain any NAs as the NAs were already omitted in the first part of the project. Due to the omitting of the NAs, 22059 cases were dropped from the plastics dataset, and 2508 cases were dropped form the life expectancy dataset. Potential problems with the drop of these cases is that the sample size in the plastic dataset just significantly dropped. This means that less data are available after the joining process to be analyzed.</p>
+</div>
+<div id="wrangling-40-pts" class="section level4">
+<h4>3. Wrangling (40 pts)</h4>
+<pre class="r"><code>names(lifeandwaste)[4] &lt;- &quot;lifespan(years)&quot;
+gdpdata &lt;- lifeandwaste %&gt;% mutate(GDP = `GDP(per capita)` * 
+    Population)
+head(gdpdata)</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   country code   year `lifespan(years… `PlasticWaste(k… `GDP(per capita…
+##   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Albania ALB    1950             54.2            0.069            9927.
+## 2 Albania ALB    1951             54.4            0.069            9927.
+## 3 Albania ALB    1952             54.9            0.069            9927.
+## 4 Albania ALB    1953             55.5            0.069            9927.
+## 5 Albania ALB    1954             56.2            0.069            9927.
+## 6 Albania ALB    1955             57.0            0.069            9927.
+## # … with 2 more variables: Population &lt;dbl&gt;, GDP &lt;dbl&gt;</code></pre>
+<pre class="r"><code>gdpdata %&gt;% arrange(`lifespan(years)`)</code></pre>
+<pre><code>## # A tibble: 10,905 x 8
+##    country code   year `lifespan(years… `PlasticWaste(k… `GDP(per capita…
+##    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Iceland ISL    1882             17.8            0.281           38978.
+##  2 Sweden  SWE    1773             18.0            0.048           42943.
+##  3 Ukraine UKR    1943             18.2            0.103            7824.
+##  4 Iceland ISL    1846             18.3            0.281           38978.
+##  5 Cambod… KHM    1977             18.9            0.066            2523.
+##  6 Ukraine UKR    1942             19.4            0.103            7824.
+##  7 Cambod… KHM    1978             19.7            0.066            2523.
+##  8 Iceland ISL    1860             19.8            0.281           38978.
+##  9 Pakist… PAK    1921             20.1            0.103            4284.
+## 10 Cambod… KHM    1976             20.3            0.066            2523.
+## # … with 10,895 more rows, and 2 more variables: Population &lt;dbl&gt;, GDP &lt;dbl&gt;</code></pre>
+<pre class="r"><code>gdpdata %&gt;% arrange(desc(`lifespan(years)`))</code></pre>
+<pre><code>## # A tibble: 10,905 x 8
+##    country code   year `lifespan(years… `PlasticWaste(k… `GDP(per capita…
+##    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Hong K… HKG    2015             83.8            0.398           48108.
+##  2 Macao   MAC    2015             83.7            0.368           98184.
+##  3 Hong K… HKG    2014             83.6            0.398           48108.
+##  4 Japan   JPN    2015             83.6            0.171           35750.
+##  5 Macao   MAC    2014             83.5            0.368           98184.
+##  6 Japan   JPN    2014             83.5            0.171           35750.
+##  7 Hong K… HKG    2013             83.5            0.398           48108.
+##  8 Macao   MAC    2013             83.4            0.368           98184.
+##  9 Japan   JPN    2013             83.4            0.171           35750.
+## 10 Hong K… HKG    2012             83.3            0.398           48108.
+## # … with 10,895 more rows, and 2 more variables: Population &lt;dbl&gt;, GDP &lt;dbl&gt;</code></pre>
+<pre class="r"><code>gdpdata %&gt;% arrange(GDP)</code></pre>
+<pre><code>## # A tibble: 10,905 x 8
+##    country code   year `lifespan(years… `PlasticWaste(k… `GDP(per capita…
+##    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Kiriba… KIR    1950             46.0            0.103            1732.
+##  2 Kiriba… KIR    1951             46.1            0.103            1732.
+##  3 Kiriba… KIR    1952             46.2            0.103            1732.
+##  4 Kiriba… KIR    1953             46.4            0.103            1732.
+##  5 Kiriba… KIR    1954             46.7            0.103            1732.
+##  6 Kiriba… KIR    1955             47.0            0.103            1732.
+##  7 Kiriba… KIR    1956             47.4            0.103            1732.
+##  8 Kiriba… KIR    1957             47.8            0.103            1732.
+##  9 Kiriba… KIR    1958             48.2            0.103            1732.
+## 10 Kiriba… KIR    1959             48.7            0.103            1732.
+## # … with 10,895 more rows, and 2 more variables: Population &lt;dbl&gt;, GDP &lt;dbl&gt;</code></pre>
+<pre class="r"><code>gdpdata %&gt;% arrange(desc(GDP))</code></pre>
+<pre><code>## # A tibble: 10,905 x 8
+##    country code   year `lifespan(years… `PlasticWaste(k… `GDP(per capita…
+##    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 United… USA    1880             39.4            0.335           49374.
+##  2 United… USA    1890             45.2            0.335           49374.
+##  3 United… USA    1901             49.3            0.335           49374.
+##  4 United… USA    1902             50.5            0.335           49374.
+##  5 United… USA    1903             50.6            0.335           49374.
+##  6 United… USA    1904             49.6            0.335           49374.
+##  7 United… USA    1905             50.3            0.335           49374.
+##  8 United… USA    1906             50.1            0.335           49374.
+##  9 United… USA    1907             50.2            0.335           49374.
+## 10 United… USA    1908             51.9            0.335           49374.
+## # … with 10,895 more rows, and 2 more variables: Population &lt;dbl&gt;, GDP &lt;dbl&gt;</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(mean(`GDP(per capita)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(\`GDP(per capita)\`)`
+##                         &lt;dbl&gt;
+## 1                      22110.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(sd(`GDP(per capita)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `sd(\`GDP(per capita)\`)`
+##                       &lt;dbl&gt;
+## 1                    20235.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(median(`GDP(per capita)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `median(\`GDP(per capita)\`)`
+##                           &lt;dbl&gt;
+## 1                        15716.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(mean(`lifespan(years)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(\`lifespan(years)\`)`
+##                         &lt;dbl&gt;
+## 1                        60.3</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(sd(`lifespan(years)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `sd(\`lifespan(years)\`)`
+##                       &lt;dbl&gt;
+## 1                      13.3</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(median(`lifespan(years)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `median(\`lifespan(years)\`)`
+##                           &lt;dbl&gt;
+## 1                          62.7</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(mean(`PlasticWaste(kg/person/day)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(\`PlasticWaste(kg/person/day)\`)`
+##                                     &lt;dbl&gt;
+## 1                                   0.193</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(sd(`PlasticWaste(kg/person/day)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `sd(\`PlasticWaste(kg/person/day)\`)`
+##                                   &lt;dbl&gt;
+## 1                                 0.300</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(median(`PlasticWaste(kg/person/day)`))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `median(\`PlasticWaste(kg/person/day)\`)`
+##                                       &lt;dbl&gt;
+## 1                                     0.144</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(mean(Population))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `mean(Population)`
+##                &lt;dbl&gt;
+## 1          46516861.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(median(Population))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `median(Population)`
+##                  &lt;dbl&gt;
+## 1              9379687</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(sd(Population))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `sd(Population)`
+##              &lt;dbl&gt;
+## 1       153287283.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(mean(GDP))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##     `mean(GDP)`
+##           &lt;dbl&gt;
+## 1 761813638316.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(median(GDP))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `median(GDP)`
+##           &lt;dbl&gt;
+## 1 127181583800.</code></pre>
+<pre class="r"><code>gdpdata %&gt;% summarize(sd(GDP))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   `sd(GDP)`
+##       &lt;dbl&gt;
+## 1   2.02e12</code></pre>
+<pre class="r"><code>livelong &lt;- gdpdata %&gt;% filter(`lifespan(years)` &gt; 62.732)
+n_distinct(livelong$country)</code></pre>
+<pre><code>## [1] 122</code></pre>
+<pre class="r"><code>liveshort &lt;- gdpdata %&gt;% filter(`lifespan(years)` &lt; 62.732)
+n_distinct(liveshort$country)</code></pre>
+<pre><code>## [1] 134</code></pre>
+<pre class="r"><code>moremoney &lt;- gdpdata %&gt;% filter(`GDP(per capita)` &gt; 15715.97)
+n_distinct(moremoney$country)</code></pre>
+<pre><code>## [1] 60</code></pre>
+<pre class="r"><code>lessmoney &lt;- gdpdata %&gt;% filter(`GDP(per capita)` &lt; 15715.97)
+n_distinct(lessmoney$country)</code></pre>
+<pre><code>## [1] 78</code></pre>
+<pre class="r"><code>sum1 &lt;- gdpdata %&gt;% group_by(country, year) %&gt;% summarize(meanlife = mean(`lifespan(years)`))
+sum1 %&gt;% arrange(desc(meanlife)) %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 x 3
+## # Groups:   country [3]
+##   country    year meanlife
+##   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Hong Kong  2015     83.8
+## 2 Macao      2015     83.7
+## 3 Hong Kong  2014     83.6
+## 4 Japan      2015     83.6
+## 5 Macao      2014     83.5
+## 6 Japan      2014     83.5</code></pre>
+<pre class="r"><code>sum2 &lt;- gdpdata %&gt;% group_by(country) %&gt;% summarize(avggdppercap = mean(`GDP(per capita)`))
+sum2 %&gt;% arrange(desc(avggdppercap)) %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   country   avggdppercap
+##   &lt;chr&gt;            &lt;dbl&gt;
+## 1 Qatar          125141.
+## 2 Macao           98184.
+## 3 Brunei          80553.
+## 4 Kuwait          75204.
+## 5 Singapore       72116.
+## 6 Norway          62350.</code></pre>
+<pre class="r"><code>sum3 &lt;- gdpdata %&gt;% group_by(country) %&gt;% summarize(avgwaste = mean(`PlasticWaste(kg/person/day)`))
+sum3 %&gt;% arrange(desc(avgwaste)) %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   country             avgwaste
+##   &lt;chr&gt;                  &lt;dbl&gt;
+## 1 Trinidad and Tobago    3.6  
+## 2 Kuwait                 0.686
+## 3 Antigua and Barbuda    0.66 
+## 4 Guyana                 0.586
+## 5 Barbados               0.570
+## 6 Saint Lucia            0.522</code></pre>
+<pre class="r"><code>sum4 &lt;- gdpdata %&gt;% group_by(country) %&gt;% summarize(avgpop = mean(Population))
+sum4 %&gt;% arrange(desc(avgpop)) %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   country           avgpop
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 China         1341335152
+## 2 India         1224614327
+## 3 United States  310383948
+## 4 Indonesia      239870937
+## 5 Brazil         194946470
+## 6 Pakistan       173593383</code></pre>
+<pre class="r"><code>sum5 &lt;- gdpdata %&gt;% group_by(country) %&gt;% summarize(avggdp = mean(GDP))
+sum5 %&gt;% arrange(desc(avggdp)) %&gt;% head()</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   country        avggdp
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 United States 1.53e13
+## 2 China         1.28e13
+## 3 India         5.39e12
+## 4 Japan         4.52e12
+## 5 Germany       3.33e12
+## 6 Russia        3.30e12</code></pre>
+<pre class="r"><code>proj1data &lt;- gdpdata %&gt;% select(country, `lifespan(years)`, `GDP(per capita)`)
+head(proj1data)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   country `lifespan(years)` `GDP(per capita)`
+##   &lt;chr&gt;               &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Albania              54.2             9927.
+## 2 Albania              54.4             9927.
+## 3 Albania              54.9             9927.
+## 4 Albania              55.5             9927.
+## 5 Albania              56.2             9927.
+## 6 Albania              57.0             9927.</code></pre>
+<ul>
+<li>Use all six core <code>dplyr</code> functions in the service of generating summary statistics (18 pts)
+<ul>
+<li>Use mutate to generate a variable that is a function of at least one other variable</li>
+</ul></li>
+<li>Compute at least 10 different summary statistics using summarize and summarize with group_by (18 pts)
+<ul>
+<li>At least 2 of these should group by a categorical variable. Create one by dichotomizing a numeric if necessary</li>
+<li>If applicable, at least 1 of these 5 should group by two categorical variables</li>
+<li>Strongly encouraged to create a correlation matrix with <code>cor()</code> on your numeric variables</li>
+</ul></li>
+<li>Summarize/discuss all results in no more than two paragraphs (4 pts)</li>
+</ul>
+<p>Next, summary statistics were generated. First, I created a new column that was named “GDP” and it was created by multiplying the values from the “GDP(per capita)” column by the “Population” column. After the mutate function, the arrange function was used to determine the countries with the highest life expectancy. It was found that Hongkong, Macao, and Japan were the top three in life expectancy. In addition, the arrange function was also used to determine the country with the highest GDP in the dataset. The country with the highest GDP was determined to be the United States. After that, the summarize function was used and the mean GDP per capita of all the countries in the joined dataset was determined to be $22109.69 with a standard deviation of 20235.37 and a median of $15715.97. The mean life expectancy of all the countries in the joined dataset was determined as 60.25015 years with a standard deviation of 13.27531 and a median of 62.732 years. The mean plastic was determined as 0.1932676 kg/person/day for the countries in the joined dataset. The standard deviation for plastic waste was 0.3000896 along with a median of 0.144 kg/person/day. The population mean for the countries in the joined dataset was determined as 46516861 people with a standard deviation of 153287283 and a median of 9379687 people. The mean GDP for all the countries in the dataset was determined to be $761813638316 with a standard deviation of 2020639381785 and a median of $127181583800. Using the filter function, it was determined that there were 122 countries that had their life expectancy above the median life expectancy of 62.732 years and 134 countries below the median life expectancy. Again using the filter function, it was determined that there were 60 countries that had their GDP per capita above the median of $15715.97 and 78 countries that had their GDP per capita less than the median. Next, the group_by function was then used to group the dataset by the country and year variable in addition to giving a mean life expectancy of the specific country and year group. This showed that in the year 2015, Hongkong had the highest life expectancy of 83.801 years. Using the group_by function again, this time it was grouped by country and a summarize function was used to find the mean GDP per capita for each country. The country with the highest average GDP per capital regardless of the year was Qatar with an average GDP per capita of $125140.84. Grouped by country and summarized by average plastic waste, the country with the highest plastic waste regardless of everything else was Trinidad and Tobago with an average of 3.6 kg/person/day. Grouped by country and summarized by average population, the country with the highest population regardless of everything else was China with an average population of 1341335152 people. Grouped by country and summarized by average GDP, the country with the highest average GDP was the United States with an average GDP of $15324952571640.</p>
+</div>
+<div id="visualizing-30-pts" class="section level4">
+<h4>4. Visualizing (30 pts)</h4>
+<ul>
+<li>Create a correlation heatmap of your numeric variables</li>
+</ul>
+<pre class="r"><code>library(ggplot2)
+df &lt;- gdpdata %&gt;% na.omit %&gt;% select_if(is.numeric)
+cor(df)</code></pre>
+<pre><code>##                                     year lifespan(years)
+## year                         1.000000000      0.60197347
+## lifespan(years)              0.601973471      1.00000000
+## PlasticWaste(kg/person/day)  0.019480389      0.14840069
+## GDP(per capita)             -0.257213130      0.26218743
+## Population                   0.004829222     -0.06147686
+## GDP                         -0.097733262      0.02737930
+##                             PlasticWaste(kg/person/day) GDP(per capita)
+## year                                        0.019480389     -0.25721313
+## lifespan(years)                             0.148400689      0.26218743
+## PlasticWaste(kg/person/day)                 1.000000000      0.17311059
+## GDP(per capita)                             0.173110588      1.00000000
+## Population                                 -0.067210288     -0.08597651
+## GDP                                         0.008230525      0.15552728
+##                               Population          GDP
+## year                         0.004829222 -0.097733262
+## lifespan(years)             -0.061476865  0.027379305
+## PlasticWaste(kg/person/day) -0.067210288  0.008230525
+## GDP(per capita)             -0.085976510  0.155527284
+## Population                   1.000000000  0.676014539
+## GDP                          0.676014539  1.000000000</code></pre>
+<pre class="r"><code>corrmatrix &lt;- cor(df) %&gt;% as.data.frame %&gt;% rownames_to_column %&gt;% 
+    pivot_longer(-1, names_to = &quot;name&quot;, values_to = &quot;correlation&quot;)
+head(corrmatrix)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   rowname name                        correlation
+##   &lt;chr&gt;   &lt;chr&gt;                             &lt;dbl&gt;
+## 1 year    year                            1      
+## 2 year    lifespan(years)                 0.602  
+## 3 year    PlasticWaste(kg/person/day)     0.0195 
+## 4 year    GDP(per capita)                -0.257  
+## 5 year    Population                      0.00483
+## 6 year    GDP                            -0.0977</code></pre>
+<pre class="r"><code>corrmatrix %&gt;% ggplot(aes(rowname, name, fill = correlation)) + 
+    geom_tile() + scale_fill_gradient2(low = &quot;red&quot;, mid = &quot;white&quot;, 
+    high = &quot;blue&quot;) + geom_text(aes(label = round(correlation, 
+    2)), color = &quot;black&quot;, size = 4) + theme(axis.text.x = element_text(angle = 90, 
+    hjust = 1)) + coord_fixed()</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /> - Create two effective, polished plots with ggplot</p>
+<pre><code>- Each plot should map 3+ variables to aesthetics 
+- Each plot should have a title and clean labeling for all mappings
+- Change at least one default theme element and color for at least one mapping per plot
+- For at least one plot, add more tick marks (x, y, or both) than are given by default
+- For at least one plot, use the stat=&quot;summary&quot; function
+- Supporting paragraph or two (for each plot) describing the relationships/trends that are apparent</code></pre>
+<pre class="r"><code>gdpdataplot1 &lt;- gdpdata %&gt;% arrange(desc(`lifespan(years)`)) %&gt;% 
+    filter(`lifespan(years)` &gt; 82.5)
+ggplot(gdpdataplot1, aes(x = country, y = `lifespan(years)`, 
+    fill = code)) + scale_y_continuous(breaks = c(10, 20, 30, 
+    40, 50, 60, 70, 80, 90)) + geom_bar(stat = &quot;summary&quot;, fun.y = &quot;mean&quot;, 
+    position = &quot;dodge&quot;, color = &quot;darkred&quot;) + geom_errorbar(stat = &quot;summary&quot;, 
+    width = 0.5) + theme(axis.text.x = element_text(angle = 45, 
+    hjust = 1), legend.position = &quot;top&quot;) + ggtitle(&quot;Top eight countries with high life expectancies&quot;) + 
+    ylab(&quot;life expectancy in years&quot;)</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>gdpplot2 &lt;- ggplot(data = gdpdataplot1, aes(x = `GDP(per capita)`, 
+    y = Population, color = country)) + geom_point(size = 2, 
+    alpha = 0.85)
+gdpplot2 + ggtitle(&quot;GDP per Capita by Population for top 8 countries with high life expectancy&quot;) + 
+    ylab(&quot;GDP per capita in dollars&quot;) + xlab(&quot;Population&quot;) + 
+    theme_minimal() + scale_y_continuous(breaks = c(2.5e+07, 
+    5e+07, 1e+08, 1.25e+08))</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The first plot described the life expectancy in years by country. The box plot clearly showed the top 8 countries with the highest life expectancies (Australia, Hongkong, Iceland, Italy, Japan, Macao, Singapore, and Spain) along with their individual average life expectancies. The color of each of the bars indicates the three letter codes of the country as shown by the legend above the bar plot. The trend that was noticed in this plot was that the top 8 countries with the highest life expectancies all have an average life expectancy a or around 85 years. The tick marks of the bar plot were changed from the default to give a more accurate description of the ages.</p>
+<p>The second plot illustrated the GDP per capita by the Population for the top 8 countries with the highest life expectancies. The tick marks of the graph were modified, and the theme was set to a minimal to give a more accurate and clear visualization. The overall trend that was shown to be apparent was that as the population size of the country increases, the GDP per capita of the country drastically decreases.</p>
+</div>
+<div id="dimensionality-reduction-20-pts" class="section level4">
+<h4>5. Dimensionality Reduction (20 pts)</h4>
+<ul>
+<li><p>Either k-means/PAM clustering or PCA (inclusive “or”) should be performed on at least three numeric variables in your dataset</p>
+<ul>
+<li>All relevant steps discussed in class</li>
+<li>A visualization of the clusters or the first few principal components (using ggplot2)</li>
+<li>Supporting paragraph or two describing results found</li>
+</ul></li>
+</ul>
+<pre class="r"><code>gdpdata2 &lt;- gdpdata %&gt;% select(-&quot;country&quot;, -&quot;year&quot;, -&quot;PlasticWaste(kg/person/day)&quot;, 
+    -&quot;code&quot;, -&quot;GDP&quot;, -&quot;Population&quot;) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 10,905
+## Variables: 2
+## $ `lifespan(years)` &lt;dbl&gt; 54.189, 54.397, 54.872, 55.465, 56.176, 57.003, 57.…
+## $ `GDP(per capita)` &lt;dbl&gt; 9927.182, 9927.182, 9927.182, 9927.182, 9927.182, 9…</code></pre>
+<pre class="r"><code>gdpdata3 &lt;- gdpdata %&gt;% select(-&quot;country&quot;, -&quot;year&quot;, -&quot;code&quot;, 
+    -&quot;Population&quot;, -&quot;GDP&quot;, -&quot;GDP(per capita)&quot;) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 10,905
+## Variables: 2
+## $ `lifespan(years)`             &lt;dbl&gt; 54.189, 54.397, 54.872, 55.465, 56.176,…
+## $ `PlasticWaste(kg/person/day)` &lt;dbl&gt; 0.069, 0.069, 0.069, 0.069, 0.069, 0.06…</code></pre>
+<pre class="r"><code>gdpdata4 &lt;- gdpdata %&gt;% select(-&quot;country&quot;, -&quot;year&quot;, -&quot;code&quot;, 
+    -&quot;Population&quot;, -&quot;GDP&quot;, -&quot;lifespan(years)&quot;) %&gt;% glimpse()</code></pre>
+<pre><code>## Observations: 10,905
+## Variables: 2
+## $ `PlasticWaste(kg/person/day)` &lt;dbl&gt; 0.069, 0.069, 0.069, 0.069, 0.069, 0.06…
+## $ `GDP(per capita)`             &lt;dbl&gt; 9927.182, 9927.182, 9927.182, 9927.182,…</code></pre>
+<pre class="r"><code># GDP Per Capita and Life Expectancy
+wss &lt;- vector()
+for (i in 1:10) {
+    temp &lt;- gdpdata2 %&gt;% dplyr::select(`lifespan(years)`, `GDP(per capita)`) %&gt;% 
+        kmeans(., i)
+    wss[i] &lt;- temp$tot.withinss %&gt;% glimpse()
+}</code></pre>
+<pre><code>##  num 4.46e+12
+##  num 1.42e+12
+##  num 6.38e+11
+##  num 4.29e+11
+##  num 3.43e+11
+##  num 2.89e+11
+##  num 1.37e+11
+##  num 2.77e+11
+##  num 1.02e+11
+##  num 7.95e+10</code></pre>
+<pre class="r"><code>ggplot() + geom_point(aes(x = 1:10, y = wss)) + geom_path(aes(x = 1:10, 
+    y = wss)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans1 &lt;- kmeans(gdpdata2, 2)
+kmeans1</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 4085, 6820
+## 
+## Cluster means:
+##   lifespan(years) GDP(per capita)
+## 1        63.28445       43691.398
+## 2        58.43268        9182.814
+## 
+## Clustering vector:
+##   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 10805 entries ]
+## 
+## Within cluster sum of squares by cluster:
+## [1] 1.141688e+12 2.808579e+11
+##  (between_SS / total_SS =  68.1 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeanscluster &lt;- gdpdata2 %&gt;% mutate(cluster = as.factor(kmeans1$cluster)) %&gt;% 
+    glimpse</code></pre>
+<pre><code>## Observations: 10,905
+## Variables: 3
+## $ `lifespan(years)` &lt;dbl&gt; 54.189, 54.397, 54.872, 55.465, 56.176, 57.003, 57.…
+## $ `GDP(per capita)` &lt;dbl&gt; 9927.182, 9927.182, 9927.182, 9927.182, 9927.182, 9…
+## $ cluster           &lt;fct&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</code></pre>
+<pre class="r"><code>kmeanscluster %&gt;% ggplot(aes(`lifespan(years)`, `GDP(per capita)`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans1$betweenss</code></pre>
+<pre><code>## [1] 3.042321e+12</code></pre>
+<pre class="r"><code>kmeans1$size</code></pre>
+<pre><code>## [1] 4085 6820</code></pre>
+<pre class="r"><code>kmeans1$tot.withinss</code></pre>
+<pre><code>## [1] 1.422546e+12</code></pre>
+<pre class="r"><code>kmeans1$centers</code></pre>
+<pre><code>##   lifespan(years) GDP(per capita)
+## 1        63.28445       43691.398
+## 2        58.43268        9182.814</code></pre>
+<pre class="r"><code># Life Expectancy and Plastic Waste
+wss2 &lt;- vector()
+for (i in 1:10) {
+    temp3 &lt;- gdpdata3 %&gt;% dplyr::select(`lifespan(years)`, `PlasticWaste(kg/person/day)`) %&gt;% 
+        kmeans(., i)
+    wss2[i] &lt;- temp3$tot.withinss %&gt;% glimpse()
+}</code></pre>
+<pre><code>##  num 1922635
+##  num 507147
+##  num 242668
+##  num 155045
+##  num 103029
+##  num 74741
+##  num 56194
+##  num 44384
+##  num 35853
+##  num 29201</code></pre>
+<pre class="r"><code>ggplot() + geom_point(aes(x = 1:10, y = wss2)) + geom_path(aes(x = 1:10, 
+    y = wss2)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans2 &lt;- kmeans(gdpdata3, 2)
+kmeans2</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 4255, 6650
+## 
+## Cluster means:
+##   lifespan(years) PlasticWaste(kg/person/day)
+## 1        46.00729                   0.1328005
+## 2        69.36344                   0.2319574
+## 
+## Clustering vector:
+##   [1] 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1
+##  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 10805 entries ]
+## 
+## Within cluster sum of squares by cluster:
+## [1] 261810.2 245337.0
+##  (between_SS / total_SS =  73.6 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeans2$betweenss</code></pre>
+<pre><code>## [1] 1415487</code></pre>
+<pre class="r"><code>kmeans2$tot.withinss</code></pre>
+<pre><code>## [1] 507147.2</code></pre>
+<pre class="r"><code>kmeans2$size</code></pre>
+<pre><code>## [1] 4255 6650</code></pre>
+<pre class="r"><code>kmeans2$centers</code></pre>
+<pre><code>##   lifespan(years) PlasticWaste(kg/person/day)
+## 1        46.00729                   0.1328005
+## 2        69.36344                   0.2319574</code></pre>
+<pre class="r"><code>kmeanscluster2 &lt;- gdpdata3 %&gt;% mutate(cluster = as.factor(kmeans2$cluster)) %&gt;% 
+    glimpse</code></pre>
+<pre><code>## Observations: 10,905
+## Variables: 3
+## $ `lifespan(years)`             &lt;dbl&gt; 54.189, 54.397, 54.872, 55.465, 56.176,…
+## $ `PlasticWaste(kg/person/day)` &lt;dbl&gt; 0.069, 0.069, 0.069, 0.069, 0.069, 0.06…
+## $ cluster                       &lt;fct&gt; 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, …</code></pre>
+<pre class="r"><code>kmeanscluster2 %&gt;% ggplot(aes(`lifespan(years)`, `PlasticWaste(kg/person/day)`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># GDP per capita and Plastic Waste
+wss3 &lt;- vector()
+for (i in 1:10) {
+    temp4 &lt;- gdpdata4 %&gt;% dplyr::select(`GDP(per capita)`, `PlasticWaste(kg/person/day)`) %&gt;% 
+        kmeans(., i)
+    wss3[i] &lt;- temp4$tot.withinss %&gt;% glimpse()
+}</code></pre>
+<pre><code>##  num 4.46e+12
+##  num 1.42e+12
+##  num 1.1e+12
+##  num 4.25e+11
+##  num 3.43e+11
+##  num 2.89e+11
+##  num 1.14e+11
+##  num 1.02e+11
+##  num 9.55e+10
+##  num 8.24e+10</code></pre>
+<pre class="r"><code>ggplot() + geom_point(aes(x = 1:10, y = wss3)) + geom_path(aes(x = 1:10, 
+    y = wss3)) + xlab(&quot;clusters&quot;) + scale_x_continuous(breaks = 1:10)</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>kmeans3 &lt;- kmeans(gdpdata4, 2)
+kmeans3</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 4085, 6820
+## 
+## Cluster means:
+##   PlasticWaste(kg/person/day) GDP(per capita)
+## 1                   0.2732015       43691.398
+## 2                   0.1453893        9182.814
+## 
+## Clustering vector:
+##   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [38] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [75] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 10805 entries ]
+## 
+## Within cluster sum of squares by cluster:
+## [1] 1.141687e+12 2.808569e+11
+##  (between_SS / total_SS =  68.1 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeans3$tot.withinss</code></pre>
+<pre><code>## [1] 1.422544e+12</code></pre>
+<pre class="r"><code>kmeans3$centers</code></pre>
+<pre><code>##   PlasticWaste(kg/person/day) GDP(per capita)
+## 1                   0.2732015       43691.398
+## 2                   0.1453893        9182.814</code></pre>
+<pre class="r"><code>kmeans3$size</code></pre>
+<pre><code>## [1] 4085 6820</code></pre>
+<pre class="r"><code>kmeans3$betweenss</code></pre>
+<pre><code>## [1] 3.042321e+12</code></pre>
+<pre class="r"><code>kmeanscluster3 &lt;- gdpdata4 %&gt;% mutate(cluster = as.factor(kmeans3$cluster))
+kmeanscluster3 %&gt;% ggplot(aes(`GDP(per capita)`, `PlasticWaste(kg/person/day)`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../Project1_files/figure-html/unnamed-chunk-6-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For my data, a k-means cluster for multiple variables was performed on my joined dataset. The first k-means cluster was for GDP per capita and life expectancy. The data was prepped by removing all columns except for the GDP per capita and life expectancy columns. This new dataset was named to be gdpdata2. Next, the number of clusters were determined by the observation of the plot made for clusters vs. wss. The number of clusters were determined by looking at the elbow of the graph that was generated (2 was determined to be the cluster). Next, using k-means cluster, a plot was made using ggplot. Two groups are clearly visible, and from this plot generated it showed that GDP per capita didn’t really show any relationship with life expectancy as countries with low GDP per capita and high GDP per capita all can have high life expectancies. The two clusters were separated by high and low GDp per capita. The betweenss was 3042321025004 and the tot.withinss was 1.422546e+12. The cluster size was 4085 and 6802, with the group having higher GDP per capita containing 6802 countries.</p>
+<p>Next, a second k-means cluster for life expectancy and plastic waste was performed. The data was prepped the same way as the first cluster plot generated (dropped all columns except for the columns of interest). The number of clusters to use was determined by the plot of clusters vs wss that was generated. The cluster was again determined to be 2. The cluster was plotted again, and 2 groups were clearly observed. The 2 groups were shown to had been separated based on high and low life expectancy. The two groups were shown to have similar plastic wastes and no relationship was observed between plastic waste and life expectancy. The cluster sizes were 6650 and 4255 with 6650 being cluster 1. In addition, the betweenss was determined to be 1415487 and the tot.withinss was 507147.2.</p>
+<p>Lastly, the third k-means cluster was for GDP per capita and plastic waste. The data was prepped the same way as the first two cluster plots generated (dropped all columns except for the columns of interest). The number of clusters was again determined to be 2 by looking at the clusters vs wss plot generated. Then the clusters were plotted, and 2 distinct groups were visualized. The clusters were shown to have been separated based on high and low GDP per capita. There was no clear relationship observed between GDP per capita and plastic waste. The size of the two clusters were 6820 and 4085 with 6820 as cluster 1. The betweenss was 3.042321e+12 and the tot.withinss was 1.422544e+12.</p>
+</div>
+<div id="neatness" class="section level4">
+<h4>6. Neatness!</h4>
+<ul>
+<li>Your project should not knit to more than 30 or so pages. You will lose points if you print out your entire dataset, etc. If you start your project in a fresh .Rmd file, you are advised to paste the set-up code from this document (lines 14-17) at the top of it: this will automatically truncate if you accidentally print out a huge dataset, etc. Imagine this is a polished report you are giving to your PI or boss to summarize your work researching a topic.</li>
+</ul>
+</div>
+</div>
+<div id="where-do-i-find-data" class="section level3">
+<h3>Where do I find data?</h3>
+<p>OK, brace yourself!</p>
+<p>You can choose ANY datasets you want that meet the above criteria for variables and observations. I’m just sitting here but off the top of my head, if you are into amusement parks, you could look at amusement-park variables, including ticket sales per day etc.; then you could join this by date in weather data. If you are interested in Game of Thrones, you could look at how the frequency of mentions of character names (plus other character variables) and the frequency of baby names in the USA…You could even take your old Biostats data and merge in new data (e.g., based on a Google forms timestamp).</p>
+<p>You could engage in some “me-search”: You can <a href="https://support.spotify.com/ca-en/article/data-rights-and-privacy-settings/">request your Spotify data</a> or <a href="https://help.netflix.com/en/node/101917">download Netflix viewing activity</a>, Amazon purchase history, etc. You can use your Google Fit/Fitbit/Apple watch data, etc. These can be combined (e.g., with each other, with other data sources).</p>
+<p>You can make it as serious as you want, or not, but keep in mind that you will be incorporating this project into a portfolio webpage for your final in this course, so choose something that really reflects who you are, or something that you feel will advance you in the direction you hope to move career-wise, or something that you think is really neat. On the flip side, regardless of what you pick, you will be performing all the same tasks, so it doesn’t end up being that big of a deal.</p>
+<p>If you are totally clueless and have no direction at all, log into the server and type</p>
+<pre class="r"><code>data(package = .packages(all.available = TRUE))</code></pre>
+<p>This will print out a list of <strong>ALL datasets in ALL packages</strong> installed on the server (a ton)! Scroll until your eyes bleed! Actually, do not scroll that much… To start with something more manageable, just run the command on your own computer, or just run <code>data()</code> to bring up the datasets in your current environment. To read more about a dataset, do <code>?packagename::datasetname</code>.</p>
+<p>If it is easier for you, and in case you don’t have many packages installed, a list of R datasets from a few common packages (also downloadable in CSV format) is given at the following website: <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a> (including types/numbers of variables in each)</p>
+<ul>
+<li><p>A good package to download for fun/relevant data is <code>fivethiryeight</code>. Just run <code>install.packages(&quot;fivethirtyeight&quot;), load the packages with</code>library(fivethirtyeight)<code>, run</code>data()`, and then scroll down to view the datasets. Here is an online list of all 127 datasets (with links to the 538 articles). Lots of sports, politics, current events, etc: <a href="https://cran.r-project.org/web/packages/fivethirtyeight/vignettes/fivethirtyeight.html" class="uri">https://cran.r-project.org/web/packages/fivethirtyeight/vignettes/fivethirtyeight.html</a></p></li>
+<li><p>If you have already started to specialize (e.g., ecology, epidemiology) you might look at discipline-specific R packages (vegan, epi, respectively). We will be using some tools from these packages later in the course, but they come with lots of data too, which you can explore according to the directions above</p></li>
+<li><p>However, you <em>emphatically DO NOT</em> have to use datasets available via R packages! In fact, I would much prefer it if you found the data from completely separate sources and brought them together (a much more realistic experience in the real world)! You can even reuse data from your SDS328M project, provided it shares a variable in common with other data which allows you to merge the two together (e.g., if you still had the timestamp, you could look up the weather that day: <a href="https://www.wunderground.com/history/" class="uri">https://www.wunderground.com/history/</a>). If you work in a research lab or have access to old data, you could potentially merge it with new data from your lab!</p></li>
+<li><p>Here is a curated list of interesting datasets (read-only spreadsheet format): <a href="https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit" class="uri">https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit</a></p></li>
+<li><p>Here is another great compilation of datasets: <a href="https://github.com/rfordatascience/tidytuesday" class="uri">https://github.com/rfordatascience/tidytuesday</a></p></li>
+<li><p>Here is the UCI Machine Learning Repository: <a href="https://archive.ics.uci.edu/ml/index.php" class="uri">https://archive.ics.uci.edu/ml/index.php</a></p>
+<ul>
+<li>See also <a href="https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data" class="uri">https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research#Biological_data</a></li>
+</ul></li>
+<li><p>Here is another good general place to look: <a href="https://www.kaggle.com/datasets" class="uri">https://www.kaggle.com/datasets</a></p></li>
+<li><p>To help narrow your search down or to see interesting variable ideas, check out <a href="https://www.tylervigen.com/spurious-correlations" class="uri">https://www.tylervigen.com/spurious-correlations</a>. This is the spurious correlations website, and it is fun, but if you look at the bottom of each plot you will see sources for the data. This is a good place to find very general data (or at least get a sense of where you can scrape data together from)!</p></li>
+<li><p>If you are interested in medical data, check out www.countyhealthrankings.org</p></li>
+<li><p>If you are interested in scraping UT data, the university makes <em>loads</em> of data public (e.g., beyond just professor CVs and syllabi). Check out all the data that is available in the statistical handbooks: <a href="https://reports.utexas.edu/statistical-handbook" class="uri">https://reports.utexas.edu/statistical-handbook</a></p></li>
+</ul>
+<div id="broader-data-sources" class="section level5">
+<h5>Broader data sources:</h5>
+<p><a href="www.data.gov">Data.gov</a> 186,000+ datasets!</p>
+<p><a href="Social%20Explorer">Social Explorer</a> is a nice interface to Census and American Community Survey data (more user-friendly than the government sites). May need to sign up for a free trial.</p>
+<p><a href="www.bls.gov">U.S. Bureau of Labor Statistics</a></p>
+<p><a href="www.census.gov">U.S. Census Bureau</a></p>
+<p><a href="www.gapminder.org/data">Gapminder</a>, data about the world.</p>
+<p>…</p>
+</div>
+</div>
+</div>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../js/docs.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
