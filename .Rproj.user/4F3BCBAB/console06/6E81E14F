@@ -1,0 +1,33 @@
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ [K]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ gi[K[Kgit init
+Reinitialized existing Git repository in /stor/home/jz8383/Website/.git/
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git add.
+git: 'add.' is not a git command. See 'git --help'.
+
+The most similar command is
+	add
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git commit -m "first website commit"
+[master 96f2bbe] first website commit
+ Committer: Junjie Zhang <jz8383@educcomp01.ccbb.utexas.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 30 insertions(+), 1 deletion(-)
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git remote add origin https://github.com/USERNAME/WEBSITE_REPOSITORY.git #re[1P[1P[1P[1P[1P[1P[1P[1P[1@j[1@z[1@h[1@a[1@n[1@g[1@1[1@1[1@0[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1P[1@d[1@a[1@t[1@a[1@s[1@c[1@i[1@e[1@n[1@c[1@e[1@p[1@r[1@o[1@j[1@s
+fatal: remote origin already exists.
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git push origin master
+Username for 'https://github.com': jzhang110
+Password for 'https://jzhang110@github.com': 
+remote: Repository not found.
+fatal: repository 'https://github.com/USERNAME/WEBSITE_REPOSITORY.git/' not found
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git int[Kit
+Reinitialized existing Git repository in /stor/home/jz8383/Website/.git/
+]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git add .
