@@ -1,13 +1,0 @@
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ [K]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ cd~s[K/stor/home/jz8383/Website
-bash: cd~/stor/home/jz8383/Website: No such file or directory
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ cd~/stor/home/jz8383/Website
-bash: cd~/stor/home/jz8383/Website: No such file or directory
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ cd~/stor/home/jz8383/Website
-bash: cd~/stor/home/jz8383/Website: No such file or directory
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ cd ~ /stor/home/iy647/Website2[K[Ke[1P7/Website[1P7/Website[1P7/Website[1P7/Website[C[1P/Websitej/Websitez/Website8/Website3/Website8/Website3/Website
-bash: cd: too many arguments
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git init #initialize local git respository
-mmit"
-git remote add origin https://github.com/USERNAME/WEBSITE_REPOSITORY.git #re
-git push origin masterReinitialized existing Git repository in /stor/home/jz8383/Website/.git/
-]0;/stor/home/jz8383/Website]0;jz8383@educcomp01: ~/Website[01;32mjz8383@educcomp01[00m:[01;34m~/Website[00m$ git add . #add all files in repository to be uploaded
