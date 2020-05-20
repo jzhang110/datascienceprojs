@@ -26,7 +26,7 @@ theme = "hugo-sustain"
 
 ## Main Menu
 [[menu.main]]
-  name = "blog"
+  name = "About me"
   weight = 100
   identifier = "blog"
   url = "/blog/"

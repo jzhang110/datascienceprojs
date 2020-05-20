@@ -1,0 +1,10 @@
+---
+title: Software interest
+author: Jimmy Zhang
+date: '2020-04-15'
+slug: software-interest
+categories: []
+tags: []
+description: ''
+---
+I discovered my interest in software as I progressed through college. I began to find myself pursuing varying personal projects to enrich my knowledge in the field. These projects had brought me much joy and I decided that I wanted to pursue a career in software engineering. I like to live a life full of adventure and will always be interested to learn new things and to explore new career opportunities.

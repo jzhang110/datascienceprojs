@@ -6,18 +6,27 @@
     <description>Recent content in Blogs on Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 13 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>General Python knowledge that I found interesting</title>
-      <link>/blog/general-python-knowledge-that-i-found-interesting/</link>
-      <pubDate>Wed, 13 May 2020 00:00:00 +0000</pubDate>
+      <title>Personal interests</title>
+      <link>/blog/personal-interests/</link>
+      <pubDate>Tue, 05 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/general-python-knowledge-that-i-found-interesting/</guid>
-      <description>Python is a versatile programming language that can be used in many ways. Although my journey through python had just started, I’ve noticed little things that I can do through python that may be very useful to me in the future. For example, using the findall() function from the re module, I can match certain numbers that I desire from a string and print them all out. This function is useful when extraction of certain information is desired, such as IP addresses.</description>
+      <guid>/blog/personal-interests/</guid>
+      <description>Aside from my professional interests, I am an out going guy that likes to live life to the fullest. I believe that we live to learn and to explore. With that said, I often find myself exploring various hobbies such as learning musical instruments, exploring nature, and digital arts.</description>
+    </item>
+    
+    <item>
+      <title>Software interest</title>
+      <link>/blog/software-interest/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/software-interest/</guid>
+      <description>I discovered my interest in software as I progressed through college. I began to find myself pursuing varying personal projects to enrich my knowledge in the field. These projects had brought me much joy and I decided that I wanted to pursue a career in software engineering. I like to live a life full of adventure and will always be interested to learn new things and to explore new career opportunities.</description>
     </item>
     
   </channel>

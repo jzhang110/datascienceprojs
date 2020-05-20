@@ -1,0 +1,10 @@
+---
+title: Personal interests
+author: Jimmy Zhang
+date: '2020-05-05'
+slug: personal-interests
+categories: []
+tags: []
+description: ''
+---
+Aside from my professional interests, I am an out going guy that likes to live life to the fullest. I believe that we live to learn and to explore. With that said, I often find myself exploring various hobbies such as learning musical instruments, exploring nature, and digital arts. 

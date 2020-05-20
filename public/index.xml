@@ -6,18 +6,45 @@
     <description>Recent content on Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 02 Oct 2016 22:55:05 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>General Python knowledge that I found interesting</title>
-      <link>/blog/general-python-knowledge-that-i-found-interesting/</link>
-      <pubDate>Wed, 13 May 2020 00:00:00 +0000</pubDate>
+      <title>Modeling, Testing, and Predicting</title>
+      <link>/project2/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/general-python-knowledge-that-i-found-interesting/</guid>
-      <description>Python is a versatile programming language that can be used in many ways. Although my journey through python had just started, I’ve noticed little things that I can do through python that may be very useful to me in the future. For example, using the findall() function from the re module, I can match certain numbers that I desire from a string and print them all out. This function is useful when extraction of certain information is desired, such as IP addresses.</description>
+      <guid>/project2/</guid>
+      <description>library(dplyr) liftdatraw1 &amp;lt;- readr::read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-08/ipf_lifts.csv&amp;quot;) liftdataraw2&amp;lt;-na.omit(liftdatraw1) liftdata&amp;lt;-liftdataraw2%&amp;gt;%select(sex,event,equipment,age,division,&amp;quot;bodyweight&amp;quot;=bodyweight_kg,&amp;quot;best3squat&amp;quot;=best3squat_kg,&amp;quot;best3bench&amp;quot;=best3bench_kg,&amp;quot;best3deadlift&amp;quot;=best3deadlift_kg,place) liftdata3&amp;lt;-liftdataraw2%&amp;gt;%select(sex, &amp;quot;bodyweight&amp;quot;=bodyweight_kg, &amp;quot;maxsquat&amp;quot;=best3squat_kg, &amp;quot;maxbench&amp;quot;=best3bench_kg, &amp;quot;maxdead&amp;quot;=best3deadlift_kg, equipment) liftdata &amp;lt;- liftdata[!is.na(as.numeric(as.character(liftdata$place))),] My dataset was found from GitHub’s Tidy Tuesday website and it contained information about powerlifting. Data about powerlifting competitions over time are included in the dataset. I will be focusing on seven of the variables described: bodyweight, sex, equipment type, place, max weight on three reps of deadlift, max weight on three repos of bench press, and max weight on thee reps of squats.</description>
+    </item>
+    
+    <item>
+      <title>Personal interests</title>
+      <link>/blog/personal-interests/</link>
+      <pubDate>Tue, 05 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/personal-interests/</guid>
+      <description>Aside from my professional interests, I am an out going guy that likes to live life to the fullest. I believe that we live to learn and to explore. With that said, I often find myself exploring various hobbies such as learning musical instruments, exploring nature, and digital arts.</description>
+    </item>
+    
+    <item>
+      <title>Software interest</title>
+      <link>/blog/software-interest/</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/software-interest/</guid>
+      <description>I discovered my interest in software as I progressed through college. I began to find myself pursuing varying personal projects to enrich my knowledge in the field. These projects had brought me much joy and I decided that I wanted to pursue a career in software engineering. I like to live a life full of adventure and will always be interested to learn new things and to explore new career opportunities.</description>
+    </item>
+    
+    <item>
+      <title>Exploratory Data Analysis</title>
+      <link>/project1/</link>
+      <pubDate>Mon, 16 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project1/</guid>
+      <description>For the exploratory analysis project performed, I chose to combine two datasets by the country variable. The first dataset I chose was about average plastic waste per country that was measured in kg/person/day. The first dataset was obtained from GitHub’s tidytuesday project. In addition to containing average plastic waste, the first dataset also included the country’s three letter code, the GDP per capital of each country in the data set, year, and total population of the country.</description>
     </item>
     
     <item>
@@ -30,25 +57,6 @@
   Exploratory Data Analysis with Tidyverse Tools
   Modeling, Testing, and Classification
   </description>
-    </item>
-    
-    <item>
-      <title>Project 1: Exploratory Data Analysis</title>
-      <link>/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project1/</guid>
-      <description>Data Wrangling and Data Exploration Instructions A knitted R Markdown document (as a PDF) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 3/8/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document).
-The text of the document should provide a narrative structure around your code/output.</description>
-    </item>
-    
-    <item>
-      <title>Project 2: Modeling, Testing, and Predicting</title>
-      <link>/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project2/</guid>
-      <description>Modeling Instructions A knitted R Markdown document (as a PDF) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on 5/1/2020. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .</description>
     </item>
     
   </channel>
